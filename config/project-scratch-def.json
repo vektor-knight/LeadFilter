@@ -1,6 +1,7 @@
 {
-    "orgName": "sartaj Company",
+    "orgName": "sartaj Traction on Demand",
     "edition": "Developer",
+    "description": "Email valid leads to sales agent.",
     "orgPreferences" : {
         "enabled": ["S1DesktopEnabled"]
     }

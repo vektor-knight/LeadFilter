@@ -1,3 +1,3 @@
-trigger EmailTrigger on SOBJECT (before insert) {
-
+trigger EmailTrigger on Account (after insert) {
+    new AccountTriggerHandler().run();
 }

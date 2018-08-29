@@ -14,7 +14,7 @@ public with sharing class AccountTriggerHandler extends TriggerHandler {
         // pre-selected at run-time. This is something which resembles
         // a query-builder as found here: https://soqlbuilder.herokuapp.com/
 
-    List<Account> result = [SELECT ShippingCity, Phone, Fax, Website FROM a 
+    List<Account> result = [SELECT ShippingCity, Phone, Fax, Website FROM Account 
                   WHERE ShippingCity='Calgary' and Fax != NULL and Phone != NULL];
 
     // Flat-file header information (target columns)

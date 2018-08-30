@@ -35,7 +35,7 @@ public class MailUtil {
       Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 
       // Strings to hold the email addresses to which you are sending the email.
-      String[] toAddresses = new String[] {'pgd.hundal@gmail.com'}; 
+      String[] toAddresses = new String[] {'tseibt@tractionondemand.com'}; 
       String[] ccAddresses = new String[] {'pgd.hundal@gmail.com'};
   
 

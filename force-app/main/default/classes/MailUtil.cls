@@ -1,32 +1,7 @@
-//Sample code for AccountTriggerHandler
-public class AccountTriggerHandler extends TriggerHandler{
-
-
-  public override void beforeInsert(){
-    System.debug( 'AccountTriggerHandler beforeInsert Start' );
-
-    System.debug( 'Trigger.isExecuting : '   + isExecuting );
-    System.debug( 'Trigger.isInsert : '      + isInsert );
-    System.debug( 'Trigger.isUpdate : '      + isUpdate );
-    System.debug( 'Trigger.isDelete : '      + isDelete );
-    System.debug( 'Trigger.isBefore : '      + isBefore );
-    System.debug( 'Trigger.isAfter : '       + isAfter );
-    System.debug( 'Trigger.isUndelete : '    + isUndelete );
-    System.debug( 'Trigger.new : '           + newList );
-    System.debug( 'Trigger.newMap : '        + newMap );
-    System.debug( 'Trigger.old : '           + oldList );
-    System.debug( 'Trigger.oldMap : '        + oldMap );
-    System.debug( 'Trigger.size : '          + size );
-
-    System.debug('AccountTriggerHandler beforeInsert End');
-  }
-
-  public override void afterInsert(){
-    System.debug('AccountTriggerHandler afterInsert Start');
-        /// "Globals"
-    // Best practice: handle SOQL -outside- loops to mitigate risk 
-    // of overrunning governer limits during batch jobs.
-    List<Account> result = [SELECT ShippingCity, Phone, Fax, Website FROM Account 
+public class MailUtil {
+    
+    public static void sendMail(string message) {
+            List<Account> result = [SELECT ShippingCity, Phone, Fax, Website FROM Account 
                   WHERE ShippingCity='Calgary' and Fax != NULL and Phone != NULL];
     // Flat-file header information (target columns)
     string header = 'City, Phone Number, Fax Number, Website \n';
@@ -60,8 +35,8 @@ public class AccountTriggerHandler extends TriggerHandler{
       Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 
       // Strings to hold the email addresses to which you are sending the email.
-      String[] toAddresses = new String[] {'tseibt@tractionondemand.com'}; 
-      String[] ccAddresses = new String[] {'sartaj.hundal@ucalgary.ca', 'rmurtha@tractionondemand.com, jmeyer@tractionondemand.com'};
+      String[] toAddresses = new String[] {'pgd.hundal@gmail.com'}; 
+      String[] ccAddresses = new String[] {'pgd.hundal@gmail.com'};
   
 
       // Assign the addresses for the To and CC lists to the mail object.
@@ -69,7 +44,7 @@ public class AccountTriggerHandler extends TriggerHandler{
       mail.setCcAddresses(ccAddresses);
 
       // Specify the address used when the recipients reply to the email. 
-      mail.setReplyTo('sartaj.hundal@ucalgary.ca');
+      mail.setReplyTo('pgd.hundal@gmail.com');
 
       // Specify the name used as the display name.
       mail.setSenderDisplayName('HundalBot Delivery Service');
@@ -82,32 +57,12 @@ public class AccountTriggerHandler extends TriggerHandler{
       mail.setUseSignature(true);
 
       // Specify the text content of the email.
-      mail.setPlainTextBody('Hi, Territory Manager. Here are the qualified leads we got from the database using our new expert system.');
+      mail.setPlainTextBody(message);
        
       mail.setFileAttachments(new Messaging.EmailFileAttachment[]{csvAttc});
       // Send the email you have created, with the attachment.
-      Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
-      
-  }
+      Messaging.sendEmail(new List<Messaging.SingleEmailMessage> { mail });
+    }
+   
 
-  public override void beforeUpdate(){
-    System.debug('AccountTriggerHandler beforeUpdate Start');
-  }
-
-  public override void afterUpdate(){
-    System.debug('AccountTriggerHandler afterUpdate Start');
-  }
-
-  public override void beforeDelete(){
-    System.debug('AccountTriggerHandler beforeDelete Start');
-  }
-
-  public override void afterDelete(){
-    System.debug('AccountTriggerHandler afterDelete Start');
-  }
-
-  public override void afterUndelete(){
-    System.debug('AccountTriggerHandler afterUndelete Start');
-  }
-    
 }
